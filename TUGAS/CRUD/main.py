@@ -1,29 +1,31 @@
 data = []
 
-def tambah_data():
-    print("\nTambah Data")
-    id = int(input("Masukkan id: "))
-    nama = input("Masukkan nama: ")
-    kelas = input("Masukkan kelas: ")
-
+def cari_data(id):
     for d in data:
         if d["id"] == id:
-            print("ID sudah ada")
-            return
+            return d
+    return None
+
+
+def tambah_data():
+    print("\nTambah Data")
+    id = int(input("ID: "))
+    if cari_data(id):
+        print("ID sudah ada")
+        return
 
     data.append({
         "id": id,
-        "nama": nama,
-        "kelas": kelas
+        "nama": input("Nama: "),
+        "kelas": input("Kelas: ")
     })
-
-    print("Data berhasil ditambah")
+    print("Data ditambah")
 
 
 def tampil_data():
     print("\nData Siswa")
-    if len(data) == 0:
-        print("Data masih kosong")
+    if not data:
+        print("Data kosong")
         return
 
     print("ID | Nama | Kelas")
@@ -33,39 +35,36 @@ def tampil_data():
 
 def ubah_data():
     print("\nUbah Data")
-    id = int(input("Masukkan id yang mau diubah: "))
+    id = int(input("ID: "))
+    d = cari_data(id)
 
-    ketemu = False
-    for d in data:
-        if d["id"] == id:
-            d["nama"] = input("Nama baru: ")
-            d["kelas"] = input("Kelas baru: ")
-            print("Data berhasil diubah")
-            ketemu = True
-
-    if ketemu == False:
+    if not d:
         print("Data tidak ditemukan")
+        return
+
+    d["nama"] = input("Nama baru: ")
+    d["kelas"] = input("Kelas baru: ")
+    print("Data diubah")
 
 
 def hapus_data():
     print("\nHapus Data")
-    id = int(input("Masukkan id yang mau dihapus: "))
+    id = int(input("ID: "))
+    d = cari_data(id)
 
-    for d in data:
-        if d["id"] == id:
-            data.remove(d)
-            print("Data berhasil dihapus")
-            return
+    if not d:
+        print("Data tidak ditemukan")
+        return
 
-    print("Data tidak ditemukan")
+    data.remove(d)
+    print("Data dihapus")
 
 
 while True:
-    print("\n=== MENU ===")
-    print("1. Tambah data")
-    print("2. Tampilkan data")
-    print("3. Ubah data")
-    print("4. Hapus data")
+    print("\n1. Tambah")
+    print("2. Tampil")
+    print("3. Ubah")
+    print("4. Hapus")
     print("0. Keluar")
 
     pilih = input("Pilih: ")
@@ -79,7 +78,6 @@ while True:
     elif pilih == "4":
         hapus_data()
     elif pilih == "0":
-        print("Keluar dari program")
         break
     else:
         print("Menu tidak ada")
